@@ -1,0 +1,36 @@
+{
+  "name": "donation",
+  "version": "1.0.0",
+  "description": "All about me",
+  "homepage": "https://github.com/FreetimeMaker/Donation-Next#readme",
+  "bugs": {
+    "url": "https://github.com/FreetimeMaker/Donation-Next/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreetimeMaker/Donation-Next.git"
+  },
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.3.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^10.0.0",
+    "eslint-config-next": "16.3.3",
+    "tailwindcss": "^4",
+    "typescript": "^7.0.0"
+  }
+}

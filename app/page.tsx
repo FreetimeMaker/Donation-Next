@@ -49,7 +49,6 @@ const items: DonationItem[] = [
   { img: "/doge.png", alt: "Doge", title: "Donate Doge", desc: "Anything", href: "https://ncwallet.net/pay/30allie", target: "_blank", button: "Donate Doge" },
   { img: "/oxa.png", alt: "OxaPay Logo", title: "Donate via OxaPay", desc: "Anything", href: "https://pay.oxapay.com/13038067", target: "_blank", button: "Donate via OxaPay" },
   { img: "/gh.png", alt: "GitHub Logo", title: "Donate via GitHub Sponsors", desc: "Anything", href: "https://github.com/sponsors/FreetimeMaker", target: "_blank", button: "Donate via GitHub Sponsors" },
-  { img: "/back.png", alt: "Go Back to the Mainsite", title: "Go Back to the Mainsite", desc: "go back to the mainsite", href: "..", target: "_self", button: "go back to the mainsite" },
 ];
 
 export default function DonatePage() {

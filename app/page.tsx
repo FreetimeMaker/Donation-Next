@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import WalletAddresses from "./wallet-addresses";
 
 export const metadata: Metadata = {
   title: "Donate | Freetime Maker",
@@ -203,6 +204,7 @@ export default function DonatePage() {
             network on the payment provider’s page before sending.
           </p>
         </section>
+        <WalletAddresses />
         <section className="thank-you" aria-labelledby="thanks-title">
           <span className="heart" aria-hidden="true">
             ♡

@@ -9,11 +9,13 @@ A clean, responsive donation page for **Freetime Maker**, built with Next.js, Re
 - Responsive layout with dedicated sections for sponsorship and cryptocurrency donations.
 - GitHub Sponsors and OxaPay integration through external payment links.
 - Bitcoin, Ethereum, Tether, USD Coin, Shiba Inu, Tron, Litecoin, and Dogecoin payment pages through NC Wallet.
+- Direct Solana (SOL) donations with a public receiving address, copy-to-clipboard button, and network warning.
+- A `solana:` payment deep link to open the receiving address in a compatible wallet. Donors choose the amount and confirm the transfer themselves; wallet support depends on the installed app and browser.
 - Keyboard focus indicators, a skip-to-content link, semantic sections, and reduced-motion support.
 - Page metadata, Open Graph information, and local brand and currency images.
 - Static HTML export: no application server, database, or payment credentials required.
 
-Payments are handled by the linked providers. This project does not process transactions, store wallet credentials, or verify donations.
+Payment links are handled by the linked providers; direct wallet donations are sent from the donor’s own wallet. This project does not process transactions, store private wallet credentials, or verify donations. Clipboard copying requires HTTPS or localhost; the address can also be selected and copied manually.
 
 ## Getting started
 
@@ -39,6 +41,7 @@ The repository also defines `npm run start` as `next start`. Because this projec
 ## Customization
 
 - **Content and payment destinations:** Update the `platforms` and `currencies` arrays in `app/page.tsx`. The `payment` field is the NC Wallet payment-page identifier, not a wallet address.
+- **Direct wallet addresses:** Update the `wallets` array in `app/wallet-addresses.tsx`. Only use public receiving addresses and specify the correct network. Review the SOL-specific instructions before adding other currencies.
 - **Design:** Adjust colors, spacing, typography, and responsive layouts in `app/globals.css`.
 - **Images:** Replace or add assets in `public/`. Currency and platform image names are referenced by the arrays in `app/page.tsx`.
 - **Site identity:** Update the page copy, profile links, and footer in `app/page.tsx`.

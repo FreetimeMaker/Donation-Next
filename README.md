@@ -11,11 +11,12 @@ A clean, responsive donation page for **Freetime Maker**, built with Next.js, Re
 - Bitcoin, Ethereum, Tether, USD Coin, Shiba Inu, Tron, Litecoin, and Dogecoin payment pages through NC Wallet.
 - Direct Solana (SOL) donations with a public receiving address, copy-to-clipboard button, and network warning.
 - A `solana:` payment deep link to open the receiving address in a compatible wallet. Donors choose the amount and confirm the transfer themselves; wallet support depends on the installed app and browser.
+- Desktop Phantom and Solflare extension connections with SOL amount entry, wallet-approved transfers, and transaction explorer links.
 - Keyboard focus indicators, a skip-to-content link, semantic sections, and reduced-motion support.
 - Page metadata, Open Graph information, and local brand and currency images.
 - Static HTML export: no application server, database, or payment credentials required.
 
-Payment links are handled by the linked providers; direct wallet donations are sent from the donor’s own wallet. This project does not process transactions, store private wallet credentials, or verify donations. Clipboard copying requires HTTPS or localhost; the address can also be selected and copied manually.
+Payment links are handled by the linked providers. For browser-wallet donations, the site prepares a native SOL transfer, requests a signature from the connected wallet, submits it to Solana mainnet, and checks network confirmation. It never receives private keys or seed phrases. Clipboard copying requires HTTPS or localhost; the address can also be selected and copied manually.
 
 ## Getting started
 
@@ -49,6 +50,16 @@ The repository also defines `npm run start` as `next start`. Because this projec
 
 Always verify payment destinations before publishing. Donors should confirm the supported currency and network with the payment provider before transferring funds.
 
+## Browser wallet donations
+
+Install the official Phantom or Solflare browser extension, unlock it, and use the matching **Connect** button on HTTPS or localhost. Enter an amount in SOL, review the recipient and amount, and approve the transaction in the extension. A connection alone does not authorize a payment. Keep enough SOL for network fees in addition to the donation. The explorer link appears after submission; if confirmation is unavailable, check it before retrying to avoid duplicate donations.
+
+The integration uses `@solana/web3.js` and the extensions’ injected providers. It supports native SOL transfers on **Solana mainnet** only, not SPL tokens. Account changes and disconnections require reconnecting.
+
+By default, requests go to `https://api.mainnet-beta.solana.com`. The public endpoint may rate-limit or reject browser traffic. For production, set `NEXT_PUBLIC_SOLANA_RPC_URL` to a browser-compatible mainnet RPC endpoint before building. The page checks the endpoint’s genesis hash before preparing a transfer. RPC providers receive the browser’s IP address and blockchain requests, including public addresses and signed transactions; provider rate limits and costs may apply.
+
+All `NEXT_PUBLIC_` values are embedded in the exported site. Never put a private API secret in this setting; use an endpoint intended for browser use with appropriate origin restrictions, or provide a separately hosted proxy if private credentials are required.
+
 ## Deployment
 
 ```sh
@@ -56,7 +67,7 @@ npm ci
 npm run build
 ```
 
-Deploy the contents of `out/` to a static hosting provider such as GitHub Pages, Cloudflare Pages, or Netlify. No runtime environment variables or backend services are needed.
+Deploy the contents of `out/` to a static hosting provider such as GitHub Pages, Cloudflare Pages, or Netlify. No runtime environment variables or application backend are needed. Browser-wallet transfers require access to a Solana mainnet RPC service; optional RPC configuration is applied at build time.
 
 ### Hosting under a subpath
 

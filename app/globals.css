@@ -391,6 +391,31 @@ h3 {
     outline: 3px solid var(--accent);
     outline-offset: 3px;
 }
+.extension-donation {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+.extension-donation h4 {
+    font-size: 15px;
+    font-weight: 600;
+}
+.extension-donation .payment-note {
+    margin: 12px 0 18px;
+}
+.extension-donation form {
+    margin-top: 16px;
+}
+.wallet-account {
+    overflow-wrap: anywhere;
+}
+.transaction-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: underline;
+}
 .wallet-status {
     margin: 14px 0 0;
     color: var(--muted);

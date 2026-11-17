@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SolanaDonation from "./solana-donation";
 
 const wallets = [
   {
@@ -80,6 +81,7 @@ function WalletCard({ wallet }: { wallet: (typeof wallets)[number] }) {
             ? "Could not copy automatically. Select the address above and copy it manually."
             : "Send SOL only on the Solana network. Verify the address in your wallet before sending."}
       </p>
+      {wallet.symbol === "SOL" && <SolanaDonation recipient={wallet.address} />}
     </article>
   );
 }

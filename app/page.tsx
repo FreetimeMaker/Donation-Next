@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Donate",
+  title: "Donate | Freetime Maker",
   description:
-    "Support Freetime Maker with donations in Crypto (Bitcoin, Ethereum, Litecoin, Dogecoin, Tron, Shiba, USDC, USDT), via OxaPay or GitHub Sponsors.",
-  alternates: {
-    canonical: "https://donation.free-time.me",
-  },
-  keywords: ["Freetime Maker", "donate", "support", "crypto", "Bitcoin", "GitHub Sponsors", "OxaPay"],
+    "Support Freetime Maker through GitHub Sponsors, OxaPay, or your favorite cryptocurrency. Always optional. Always appreciated.",
+  alternates: { canonical: "https://donation.free-time.me" },
   openGraph: {
-    title: "Donate | Freetime Maker",
-    description:
-      "Support Freetime Maker with donations in Crypto, via OxaPay or GitHub Sponsors.",
+    title: "Support Freetime Maker",
+    description: "Good things take time. Help me make more.",
     url: "https://donation.free-time.me",
     type: "website",
   },
@@ -20,66 +17,209 @@ export const metadata: Metadata = {
       { url: "/Icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/Icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/Icons/favicon.ico", type: "image/x-icon" },
-      { url: "/Icons/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/Icons/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: "/Icons/apple-touch-icon.png",
   },
   manifest: "/Icons/site.webmanifest",
 };
 
-interface DonationItem {
-  img: string;
-  alt: string;
-  title: string;
-  desc: string;
-  href: string;
-  target: string;
-  button: string;
-}
-
-const items: DonationItem[] = [
-  { img: "/btc.png", alt: "Bitcoin", title: "Donate Bitcoin", desc: "Anything", href: "https://ncwallet.net/pay/60misly", target: "_blank", button: "Donate Bitcoin" },
-  { img: "/eth.png", alt: "Ethereum", title: "Donate Ethereum", desc: "Anything", href: "https://ncwallet.net/pay/86fremd", target: "_blank", button: "Donate Ethereum" },
-  { img: "/usdt.png", alt: "Tether/USDT", title: "Donate Tether/USDT", desc: "Anything", href: "https://ncwallet.net/pay/19tacit", target: "_blank", button: "Donate Tether/USDT" },
-  { img: "/usdc.png", alt: "USDC", title: "Donate USDC", desc: "Anything", href: "https://ncwallet.net/pay/15snog", target: "_blank", button: "Donate USDC" },
-  { img: "/shib.png", alt: "Shib", title: "Donate Shib", desc: "Anything", href: "https://ncwallet.net/pay/18spile", target: "_blank", button: "Donate Shib" },
-  { img: "/tron.png", alt: "Tron", title: "Donate Tron", desc: "Anything", href: "https://ncwallet.net/pay/15gown", target: "_blank", button: "Donate Tron" },
-  { img: "/ltc.png", alt: "Litecoin", title: "Donate Litecoin", desc: "Anything", href: "https://ncwallet.net/pay/77pudgy", target: "_blank", button: "Donate Litecoin" },
-  { img: "/doge.png", alt: "Doge", title: "Donate Doge", desc: "Anything", href: "https://ncwallet.net/pay/30allie", target: "_blank", button: "Donate Doge" },
-  { img: "/oxa.png", alt: "OxaPay Logo", title: "Donate via OxaPay", desc: "Anything", href: "https://pay.oxapay.com/13038067", target: "_blank", button: "Donate via OxaPay" },
-  { img: "/gh.png", alt: "GitHub Logo", title: "Donate via GitHub Sponsors", desc: "Anything", href: "https://github.com/sponsors/FreetimeMaker", target: "_blank", button: "Donate via GitHub Sponsors" },
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const currencies = [
+  { name: "Bitcoin", symbol: "BTC", image: "btc", payment: "60misly" },
+  { name: "Ethereum", symbol: "ETH", image: "eth", payment: "86fremd" },
+  { name: "Tether", symbol: "USDT", image: "usdt", payment: "19tacit" },
+  { name: "USD Coin", symbol: "USDC", image: "usdc", payment: "15snog" },
+  { name: "Shiba Inu", symbol: "SHIB", image: "shib", payment: "18spile" },
+  { name: "Tron", symbol: "TRX", image: "tron", payment: "15gown" },
+  { name: "Litecoin", symbol: "LTC", image: "ltc", payment: "77pudgy" },
+  { name: "Dogecoin", symbol: "DOGE", image: "doge", payment: "30allie" },
 ];
+const platforms = [
+  {
+    name: "GitHub Sponsors",
+    image: "gh",
+    title: "Back the maker.",
+    description: "Support my work directly through GitHub Sponsors.",
+    action: "Become a sponsor",
+    href: "https://github.com/sponsors/FreetimeMaker",
+  },
+  {
+    name: "OxaPay",
+    image: "oxa",
+    title: "A simple way to give.",
+    description: "Prefer a crypto checkout? Make your donation with OxaPay.",
+    action: "Continue to OxaPay",
+    href: "https://pay.oxapay.com/13038067",
+  },
+];
+
+function Arrow() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7M7 7h10v10" />
+    </svg>
+  );
+}
 
 export default function DonatePage() {
   return (
-    <div className="m-0 min-h-screen bg-[#f4f4f4] p-0 font-sans text-inherit">
-      <header className="bg-[#333] p-4 text-center text-white">
-        <h1 className="text-2xl">Donate to me</h1>
+    <div className="site-shell">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <a
+          className="brand"
+          href={basePath + "/"}
+          aria-label="Freetime Maker home"
+        >
+          <span className="brand-mark" aria-hidden="true">
+            fm<span>.</span>
+          </span>
+          <span>Freetime Maker</span>
+        </a>
+        <a
+          className="header-link"
+          href="https://github.com/FreetimeMaker"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Find me on GitHub <Arrow />
+        </a>
       </header>
-
-      <main>
-        <section id="products" className="flex flex-wrap justify-center gap-4 p-4">
-          {items.map((item) => (
-            <div
-              key={item.button}
-              className="w-[200px] rounded-[10px] bg-white p-4 text-center shadow-[0_2px_5px_rgba(0,0,0,0.1)]"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.img} alt={item.alt} width={150} height={150} className="mx-auto h-[150px] w-[150px] object-contain" />
-              <h3 className="text-black">{item.title}</h3>
-              <p className="text-black">{item.desc}</p>
-              <a href={item.href} target={item.target} rel="noopener noreferrer">
-                <button className="cursor-pointer rounded-[5px] border-none bg-[#007bff] px-4 py-2 text-white">
-                  {item.button}
-                </button>
-              </a>
+      <main id="main">
+        <section className="hero" aria-labelledby="hero-title">
+          <span className="eyebrow">
+            <span className="status-dot" /> A little support. A lasting impact.
+          </span>
+          <h1 id="hero-title">
+            Good things take time.
+            <br />
+            <span>Help me make more.</span>
+          </h1>
+          <p>
+            I’m Freetime Maker. If you enjoy what I create, a donation is a
+            thoughtful way to support my work and the ideas that come next.
+          </p>
+          <a className="primary-button" href="#support">
+            Choose how to support <span aria-hidden="true">↓</span>
+          </a>
+          <span className="hero-note">
+            Always optional. Always appreciated.
+          </span>
+          <div className="hero-decoration" aria-hidden="true">
+            ♡
+          </div>
+        </section>
+        <section
+          id="support"
+          className="support-section"
+          aria-labelledby="support-title"
+        >
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">MAKE A DIFFERENCE</span>
+              <h2 id="support-title">Your support, your way.</h2>
             </div>
-          ))}
+            <p>Pick whatever works best for you.</p>
+          </div>
+          <div className="platform-grid">
+            {platforms.map((platform) => (
+              <a
+                key={platform.name}
+                className="platform-card"
+                href={platform.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="card-top">
+                  <span className="platform-icon">
+                    <Image
+                      src={`${basePath}/${platform.image}.png`}
+                      alt=""
+                      width={32}
+                      height={32}
+                    />
+                  </span>
+                  <span className="badge">{platform.name}</span>
+                  <Arrow />
+                </div>
+                <h3>{platform.title}</h3>
+                <p>{platform.description}</p>
+                <span className="card-action">
+                  {platform.action} <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+        <section className="crypto-section" aria-labelledby="crypto-title">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">FOR THE CRYPTO COMMUNITY</span>
+              <h2 id="crypto-title">A coin of appreciation.</h2>
+            </div>
+            <p>Choose a currency to open its payment page.</p>
+          </div>
+          <div className="crypto-grid">
+            {currencies.map((currency) => (
+              <a
+                key={currency.symbol}
+                className="crypto-card"
+                href={`https://ncwallet.net/pay/${currency.payment}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Donate ${currency.name} (opens in a new tab)`}
+              >
+                <Image
+                  src={`${basePath}/${currency.image}.png`}
+                  alt=""
+                  width={42}
+                  height={42}
+                />
+                <span className="currency-info">
+                  <span className="currency-name">{currency.name}</span>
+                  <span className="currency-symbol">{currency.symbol}</span>
+                </span>
+                <Arrow />
+              </a>
+            ))}
+          </div>
+          <p className="payment-note">
+            All payment links open in a new tab. Please verify the currency and
+            network on the payment provider’s page before sending.
+          </p>
+        </section>
+        <section className="thank-you" aria-labelledby="thanks-title">
+          <span className="heart" aria-hidden="true">
+            ♡
+          </span>
+          <h2 id="thanks-title">Every bit means a lot.</h2>
+          <p>
+            Whether you donate, share a project, or simply use something I’ve
+            made — thank you for being part of it.
+          </p>
         </section>
       </main>
-
-      <footer className="py-4 text-center">&copy;  2026 Freetime Maker</footer>
+      <footer className="site-footer">
+        <span>© {new Date().getFullYear()} Freetime Maker</span>
+        <span>Made with care. Supported by you.</span>
+        <a
+          href="https://github.com/FreetimeMaker/Donation-Next"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View source <Arrow />
+        </a>
+      </footer>
     </div>
   );
 }

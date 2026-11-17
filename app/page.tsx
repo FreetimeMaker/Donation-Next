@@ -81,9 +81,14 @@ export default function DonatePage() {
           href={basePath + "/"}
           aria-label="Freetime Maker home"
         >
-          <span className="brand-mark" aria-hidden="true">
-            fm<span>.</span>
-          </span>
+          <Image
+            src={`${basePath}/logo.png`}
+            alt=""
+            width={40}
+            height={40}
+            className="object-contain"
+            priority
+          />
           <span>Freetime Maker</span>
         </a>
         <a
@@ -174,7 +179,7 @@ export default function DonatePage() {
               <a
                 key={currency.symbol}
                 className="crypto-card"
-                href={`https://ncwallet.net/pay/${currency.payment}`}
+                href={`https://nc-wallet.com/pay/${currency.payment}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Donate ${currency.name} (opens in a new tab)`}
